@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LANDrop Web</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="stylesheet"
+        href="/static/styles.css">
+</head>
+
+<body>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+    <main class="app">
+
+        <section class="hero">
+            <div class="badge">
+                ● Local network only • No cloud upload
+            </div>
+
+            <h1>Transfer Files Instantly With LAN DROP</h1>
+
+            <p class="hero-subtitle">
+                No cloud. No accounts. No limits.
+            </p>
+
+            <p class="hero-description">
+                Drop a file on one device. Receive it on another. Private, fast and local.
+            </p>
+
+            
+        </section>
+
+        <section class="grid">
+
+            <div class="card">
+                <h2>Your Device</h2>
+
+                <label>Device Name</label>
+
+                <input
+                    id="deviceNameInput"
+                    placeholder="My Device"
+                    readonly>
+
+                <div class="section-action">
+                    <button onclick="goOnline()">
+                        Go Online
+                    </button>
+                </div>
+
+                <div class="status">
+                    Status:
+                    <span id="status">Offline</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Nearby Devices</h2>
+
+                <ul id="deviceList"></ul>
+            </div>
+
+            <div class="card full">
+                <h2>Send Files</h2>
+
+                <div class="file-picker-grid">
+
+                    <label class="picker-card" for="fileInput">
+                        <span class="picker-icon">📄</span>
+                        <strong>Select Files</strong>
+                        <small>Images, videos, documents</small>
+                    </label>
+
+                    <label class="picker-card" for="folderInput">
+                        <span class="picker-icon">📁</span>
+                        <strong>Select Folder</strong>
+                        <small>Send full folder structure</small>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="fileInput"
+                        multiple
+                        hidden>
+
+                    <input
+                        type="file"
+                        id="folderInput"
+                        webkitdirectory
+                        directory
+                        multiple
+                        hidden>
+                </div>
+
+                <label class="zip-option">
+                    <input type="checkbox" id="zipModeInput">
+                    <span>Send as ZIP and preserve folder structure</span>
+                </label>
+
+                <div class="send-row">
+                    <p>
+                        Selected files:
+                        <span id="selectedFileCount">0</span>
+                    </p>
+
+                    <button onclick="requestFileSend()">
+                        Send Selected
+                    </button>
+                </div>
+
+                <div id="dropZone">
+                    <div>
+                        <strong>Drop files here</strong>
+                        <p>Drag files or folders into this area</p>
+                    </div>
+                </div>
+
+                <div class="progress-wrap">
+                    <progress
+                        id="progressBar"
+                        value="0"
+                        max="100">
+                    </progress>
+
+                    <div class="stats">
+                        <span>
+                            Progress:
+                            <span id="progressText">0%</span>
+                        </span>
+
+                        <span>
+                            Speed:
+                            <span id="speedText">0 MB/s</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full">
+                <h2>Transfers</h2>
+
+                <div id="queueContainer"></div>
+
+                <div id="transferContainer"></div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/streamsaver@2.0.6/StreamSaver.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
