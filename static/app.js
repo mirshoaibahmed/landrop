@@ -1,3 +1,4 @@
+
 const socket = io();
 
 const largeFileMode = Boolean(window.streamSaver);

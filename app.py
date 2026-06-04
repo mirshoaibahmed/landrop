@@ -1,11 +1,21 @@
-from flask import Flask, render_template, request
-from flask_socketio import SocketIO, emit
+import eventlet
+eventlet.monkey_patch()
+
+import os
 import uuid
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "landrop"
+from flask import Flask, render_template, request
+from flask_socketio import SocketIO, emit, join_room
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
+
+app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "landrop")
+
+socketio = SocketIO(
+    app,
+    cors_allowed_origins="*",
+    async_mode="eventlet"
+)
 
 online_devices = {}
 
@@ -63,7 +73,6 @@ def accept_connect(data):
 
 @socketio.on("join-transfer-room")
 def join_transfer_room(data):
-    from flask_socketio import join_room
     join_room(data["roomId"])
     return {"joined": True}
 
@@ -82,7 +91,7 @@ def signal(data):
 def disconnect():
     disconnected_id = None
 
-    for device_id, device in online_devices.items():
+    for device_id, device in list(online_devices.items()):
         if device["socketId"] == request.sid:
             disconnected_id = device_id
             break
@@ -104,15 +113,12 @@ def broadcast_devices():
     socketio.emit("devices-updated", devices)
 
 
-import os
-
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 55111))
+    port = int(os.environ.get("PORT", 8080))
 
     socketio.run(
         app,
         host="0.0.0.0",
         port=port,
-        debug=False,
-        allow_unsafe_werkzeug=True
+        debug=False
     )
