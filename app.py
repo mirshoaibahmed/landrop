@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 import os
 import uuid
 
@@ -14,7 +11,7 @@ app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "landrop")
 socketio = SocketIO(
     app,
     cors_allowed_origins="*",
-    async_mode="eventlet"
+    async_mode="threading"
 )
 
 online_devices = {}
@@ -120,5 +117,6 @@ if __name__ == "__main__":
         app,
         host="0.0.0.0",
         port=port,
-        debug=False
+        debug=False,
+        allow_unsafe_werkzeug=True
     )
