@@ -104,11 +104,15 @@ def broadcast_devices():
     socketio.emit("devices-updated", devices)
 
 
+import os
+
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 55111))
+
     socketio.run(
         app,
         host="0.0.0.0",
-        port=55111,
-        debug=True,
+        port=port,
+        debug=False,
         allow_unsafe_werkzeug=True
     )

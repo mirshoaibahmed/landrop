@@ -1084,3 +1084,34 @@ progress {
         width: 100%;
     }
 }
+/* =========================
+   Footer
+========================= */
+
+.footer {
+    margin-top: 60px;
+    padding: 24px 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    color: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+}
+
+.footer-content a {
+    color: #60a5fa;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.footer-content a:hover {
+    color: #93c5fd;
+}
